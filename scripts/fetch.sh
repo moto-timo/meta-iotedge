@@ -19,10 +19,6 @@ METAOE_URI="git://git.openembedded.org/meta-openembedded.git"
 METAOE_PATH="poky/meta-openembedded"
 METAOE_REV="${METAOE_REV-refs/remotes/origin/${branch}}"
 
-METARUST_URI="https://github.com/meta-rust/meta-rust.git"
-METARUST_PATH="poky/meta-rust"
-METARUST_REV="${METARUST_REV-refs/remotes/origin/${branch}}"
-
 METAVIRT_URI="git://git.yoctoproject.org/meta-virtualization"
 METAVIRT_PATH="poky/meta-virtualization"
 METAVIRT_REV="${METAVIRT_REV-refs/remotes/origin/${branch}}"
