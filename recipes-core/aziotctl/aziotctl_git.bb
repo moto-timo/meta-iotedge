@@ -17,7 +17,14 @@ S = "${WORKDIR}/git"
 
 CARGO_SRC_DIR = "aziotctl"
 
+export SOCKET_DIR ?= "/run/aziot"
+export USER_AZIOTID ?= "aziotid"
+export USER_AZIOTCS ?= "aziotcs"
+export USER_AZIOTKS ?= "aziotks"
+export USER_AZIOTTPM ?= "aziottpm"
+
 inherit cargo cargo-update-recipe-crates
 
 include aziotctl.inc
 include aziotctl-crates.inc
+
