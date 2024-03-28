@@ -1,4 +1,4 @@
-target = "${@d.getVar('TARGET_SYS',True).replace('-', ' ')}"
+target = "${@d.getVar('RUST_TARGET_SYS',True).replace('-', ' ')}"
 BINDGEN_EXTRA_CLANG_ARGS = "${@bb.utils.contains('target', 'arm', \
                               '--sysroot=${WORKDIR}/recipe-sysroot -I${WORKDIR}/recipe-sysroot/usr/include -mfloat-abi=hard', \
                               '--sysroot=${WORKDIR}/recipe-sysroot -I${WORKDIR}/recipe-sysroot/usr/include', \

@@ -1,0 +1,47 @@
+From 7f8bed851a06e40c015038dd06055facb1885fab Mon Sep 17 00:00:00 2001
+From: Tim Orling <tim.orling@konsulko.com>
+Date: Wed, 27 Mar 2024 07:34:08 -0700
+Subject: [PATCH 3/3] aziot-identity: replace deprecated utc usage
+
+..^Mwarning: use of deprecated associated function `chrono::NaiveDateTime::from_timestamp_opt`: use `DateTime::from_timestamp` instead
+   --> identity/aziot-identityd/src/lib.rs:911:45
+    |
+911 |     let expiration = chrono::NaiveDateTime::from_timestamp_opt(diff, 0).ok_or_else(|| {
+    |                                             ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated associated function `chrono::DateTime::<Tz>::from_utc`: Use TimeZone::from_utc_datetime() or DateTime::from_naive_utc_and_offset instead
+   --> identity/aziot-identityd/src/lib.rs:917:42
+    |
+917 |         chrono::DateTime::<chrono::Utc>::from_utc(expiration, chrono::Utc).to_rfc3339();
+    |                                          ^^^^^^^^
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ identity/aziot-identityd/src/lib.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/identity/aziot-identityd/src/lib.rs b/identity/aziot-identityd/src/lib.rs
+index 534f2ca..85fed4a 100644
+--- a/identity/aziot-identityd/src/lib.rs
++++ b/identity/aziot-identityd/src/lib.rs
+@@ -908,13 +908,13 @@ fn get_cert_expiration(cert: &str) -> Result<String, Error> {
+         .diff(cert.not_after())
+         .map_err(|err| Error::Internal(InternalError::CreateCertificate(Box::new(err))))?;
+     let diff = i64::from(diff.secs) + i64::from(diff.days) * 86400;
+-    let expiration = chrono::NaiveDateTime::from_timestamp_opt(diff, 0).ok_or_else(|| {
++    let expiration = chrono::DateTime::from_timestamp(diff, 0).ok_or_else(|| {
+         Error::Internal(InternalError::CreateCertificate(
+             "failed to convert timestamp".into(),
+         ))
+     })?;
+     let expiration =
+-        chrono::DateTime::<chrono::Utc>::from_utc(expiration, chrono::Utc).to_rfc3339();
++        chrono::DateTime::<chrono::Utc>::from_naive_utc_and_offset(expiration.naive_utc(), chrono::Utc).to_rfc3339();
+ 
+     Ok(expiration)
+ }
+-- 
+2.34.1
+

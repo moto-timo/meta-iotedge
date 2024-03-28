@@ -22,7 +22,7 @@ SRC_URI += "file://aziot-certd.service \
 do_install () {
     # Binaries
     install -d ${D}${bindir}
-    install -m 755 ${WORKDIR}/build/target/${TARGET_SYS}/release/aziotd ${D}${bindir}/aziotd
+    install -m 755 ${WORKDIR}/build/target/${RUST_TARGET_SYS}/release/aziotd ${D}${bindir}/aziotd
     install -d ${D}${systemd_unitdir}/system
 
     # Create symbolic links
@@ -56,6 +56,8 @@ do_install () {
 
     # Install all required services
     install -m 644 ${WORKDIR}/aziot-certd.service ${D}${systemd_unitdir}/system
+    # ls /srv/build/ttorling/workspace-azure-iot/build/tmp/work/core2-64-kgaziot-linux/aziotd/git/git/cert/aziot-certd
+    # aziot-certd.service.in  aziot-certd.socket.in  Cargo.toml  config  openapi  src
     install -m 644 ${WORKDIR}/git/cert/aziot-certd/aziot-certd.socket ${D}${systemd_unitdir}/system
     install -m 644 ${WORKDIR}/aziot-identityd.service ${D}${systemd_unitdir}/system
     install -m 644 ${WORKDIR}/git/identity/aziot-identityd/aziot-identityd.socket ${D}${systemd_unitdir}/system
